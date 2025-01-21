@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
+  <title>File List</title>
+</head>
+<body class="bg-gray-800 text-gray-100">
+  <div class="absolute hover:shadow-sm hover:shadow-cyan-500/50 bg-cyan-600 ml-[77%] sm:ml-[78%] font-bold text-lg h-[36px] pt-[2px] mt-4 w-[38px] sm:w-32 rounded-xl text-center"><a href="http://localhost:3000/drive/upload" ><span class="hidden sm:inline">Upload </span><i class="ri-upload-cloud-2-line"></i></a></div>
+  <div class="absolute hover:shadow-sm hover:shadow-red-500/50 bg-red-600 ml-[89%] font-semibold text-lg h-[36px] pt-[2px] mt-4 w-[36px] sm:w-[117px] rounded-xl text-center"><a href="http://localhost:3000/drive/logout" ><span class="hidden sm:inline">Logout</span><i class="ri-logout-circle-r-line sm:ml-[6px]"></i></a></div>
+
+  <div class="container mx-auto py-10">
+    <h1 class="text-2xl font-bold mb-5 text-center">My Files</h1>
+    
+    <% if (message) { %>
+      <p class="text-center text-lg text-red-500"><%= message %></p>
+    <% } else { %>
+
+    <script>
+        const error = "<%= message || '' %>";
+        if (error) {  
+            alert(error);
+        }
+    </script>
+
+      <table class="table-auto w-[100%] bg-gray-700 border-collapse ">
+        <thead>
+          <tr class="bg-gray-200 dark:bg-gray-600">
+            <th class="px-4 py-2">File Name</th>
+            <th class="hidden sm:block px-4 py-2">File Type</th>
+            <th class="px-4 py-2">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% files.forEach(file => { %>
+            <tr class="text-center border-b border-gray-300 dark:border-gray-600">
+              <td class="px-4 py-2"><%= file.name %></td>
+              <td class="hidden sm:block px-4 py-2"><%= file.mimeType %></td>
+              <td class="px-4 py-2">
+                <a href="https://drive.google.com/file/d/<%= file.id %>/view" target="_blank" class="text-blue-500 underline"><i class="ri-book-2-line"></i></a>
+                <a href="/drive/download/<%= file.id %>" class="text-green-500 underline ml-4"><i class="ri-download-cloud-2-line"></i></a>
+                <form action="/drive/delete/<%= file.id %>" method="POST" class="inline ml-4">
+                  <button type="submit" class="text-red-500 underline"><i class="ri-delete-bin-5-line"></i></button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+  </div>
+</body>
+</html>
